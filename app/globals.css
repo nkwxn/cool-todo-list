@@ -1,26 +1,264 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-overlay: var(--overlay);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-shadow: var(--shadow-color);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --bg: #f7f7f6;
+  --surface: #ffffff;
+  --surface-2: #f1f1ef;
+  --overlay: rgba(23, 23, 23, 0.35);
+  --border: rgba(23, 23, 23, 0.09);
+  --border-strong: rgba(23, 23, 23, 0.16);
+  --text: #1c1b1a;
+  --muted: #6f6e6b;
+  --faint: #9b9a96;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-fg: #ffffff;
+  --danger: #e11d48;
+  --danger-hover: #be123c;
+  --success: #15803d;
+  --warning: #b45309;
+  --shadow-color: 24 24 27;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0e0e10;
+  --surface: #17171a;
+  --surface-2: #1e1e22;
+  --overlay: rgba(0, 0, 0, 0.55);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --text: #ededec;
+  --muted: #a3a29e;
+  --faint: #75746f;
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-fg: #17171a;
+  --danger: #fb7185;
+  --danger-hover: #fda4af;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --shadow-color: 0 0 0;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* ---- Note color tints (Google Keep-style cards) ---- */
+
+[data-note-color="slate"] {
+  --note-tint: #eceef1;
+  --note-tint-strong: #dde1e7;
+}
+[data-note-color="amber"] {
+  --note-tint: #fbf0d9;
+  --note-tint-strong: #f6e3ba;
+}
+[data-note-color="orange"] {
+  --note-tint: #fbe6d4;
+  --note-tint-strong: #f6d2b4;
+}
+[data-note-color="rose"] {
+  --note-tint: #fbdfe6;
+  --note-tint-strong: #f7c6d4;
+}
+[data-note-color="violet"] {
+  --note-tint: #ebe4fa;
+  --note-tint-strong: #ddd0f5;
+}
+[data-note-color="blue"] {
+  --note-tint: #dde9f9;
+  --note-tint-strong: #c5daf5;
+}
+[data-note-color="cyan"] {
+  --note-tint: #d9f0f2;
+  --note-tint-strong: #bce2e6;
+}
+[data-note-color="green"] {
+  --note-tint: #e0f0e2;
+  --note-tint-strong: #c7e3cb;
+}
+
+.dark [data-note-color="slate"] {
+  --note-tint: #232428;
+  --note-tint-strong: #2c2d33;
+}
+.dark [data-note-color="amber"] {
+  --note-tint: #2e2513;
+  --note-tint-strong: #3a2f18;
+}
+.dark [data-note-color="orange"] {
+  --note-tint: #2f2115;
+  --note-tint-strong: #3b2a1b;
+}
+.dark [data-note-color="rose"] {
+  --note-tint: #2f1a21;
+  --note-tint-strong: #3b222a;
+}
+.dark [data-note-color="violet"] {
+  --note-tint: #251d36;
+  --note-tint-strong: #2f2544;
+}
+.dark [data-note-color="blue"] {
+  --note-tint: #182436;
+  --note-tint-strong: #1e2d44;
+}
+.dark [data-note-color="cyan"] {
+  --note-tint: #132a2d;
+  --note-tint-strong: #193538;
+}
+.dark [data-note-color="green"] {
+  --note-tint: #17291b;
+  --note-tint-strong: #1e3424;
+}
+
+.note-tint {
+  background-color: var(--note-tint);
+}
+
+.note-tint-strong {
+  background-color: var(--note-tint-strong);
+}
+
+/* ---- Animations (restrained) ---- */
+
+@keyframes cn-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cn-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cn-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cn-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.anim-fade {
+  animation: cn-fade-in 0.18s ease-out both;
+}
+.anim-slide-up {
+  animation: cn-slide-up 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.anim-scale-in {
+  animation: cn-scale-in 0.16s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.anim-toast {
+  animation: cn-toast-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Subtle scrollbars ---- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---- Native form controls inherit theme ---- */
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: var(--picker-filter, none);
+  cursor: pointer;
+}
+
+.dark input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
